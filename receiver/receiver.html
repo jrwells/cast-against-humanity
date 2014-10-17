@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="receiver.css">
+	<title>Cards Against Humanity</title>
+</head>
+<body>
+	<div id="content">
+		<div id="instructions"></div>
+		<div class="card prompt">
+			<p class='promptText'></p>
+			<p class="judgeOrWinner"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+		<div class="card response unrevealed">
+			<p class="firstAnswer"></p>
+			<p class="secondAnswer"></p>
+		</div>
+	</div>
+</body>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
+<script src="prompts.php"></script>
+<script src="game.js?v=<?= time(); ?>"></script>
+</html>

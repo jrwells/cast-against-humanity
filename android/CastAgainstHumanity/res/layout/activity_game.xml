@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CCCCCC"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".GameActivity" >
+
+    <TextView
+        android:id="@+id/prompt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="#222222"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/prompt_placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#EDEDED"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_next_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_next_round_label"
+        android:textColor="#333333"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_send_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/prompt_text"
+        android:background="#800000"
+        android:gravity="center"
+        android:textColor="#EDEDED"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/card_list_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/prompt_text"
+        android:layout_below="@+id/button_send_cards"
+        android:background="#FFFFFF"
+        android:visibility="gone" >
+
+        <ListView
+            android:id="@+id/card_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:divider="#666666"
+            android:dividerHeight="1sp" >
+        </ListView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/judge_big_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="201dp"
+        android:layout_below="@+id/prompt_text"
+        android:gravity="center"
+        android:text="@string/judge_waiting_for_submissions"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#333333"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/big_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="146dp"
+        android:gravity="center"
+        android:text="@string/choose_chromecast"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#333333"
+        android:visibility="gone" />
+
+</RelativeLayout>

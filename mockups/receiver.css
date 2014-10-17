@@ -1,0 +1,48 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+body {
+  background: #333;
+  font-family: 'Raleway', sans-serif;
+}
+#content {
+  width: 1280px;
+  height: 720px;
+  margin: auto;
+  margin-top: 5%;
+  background: #163339;
+}
+.card {
+  width: 235px;
+  height: 270px;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 30px;
+  float: left;
+  border-bottom: 5px solid #888;
+  font-size: 38px;
+  font-weight: 900;
+}
+.card p {
+  margin: 0;
+}
+.card .judge {
+  font-size: 30px;
+  font-weight: normal;
+  padding-top: 85px;
+  color: #CCC;
+}
+.card.prompt {
+  color: #FFF;
+  background: #000;
+  border-color: #FFF;
+}
+.card.response {
+  background: #FFF;
+  border-color: #000;
+}
+.card.response.unrevealed {
+  font-size: 200px;
+  text-align: center;
+}
+.card.response.lost {
+  opacity: 0.5;
+}
