@@ -8,7 +8,7 @@ blackCards = new Array();
 whiteCards = new Array();
 cardIDCounter = 0;
 
-// represents a potential response
+// Represents a potential response
 function WhiteCard(text){
     this.text = text;
     this.ID = cardIDCounter++;
@@ -33,7 +33,7 @@ function WhiteCard(text){
     }
 
 }
-// represents a prompt
+// Represents a prompt
 function BlackCard(text, numOfBlanks){
     this.text = text;
     this.ID = cardIDCounter++;
@@ -73,11 +73,11 @@ $promptFilenames[] = 'http://www.cardsagainsthumanity.com/bcards.txt';
 $responseFilenames = array();
 $responseFilenames[] = 'http://www.cardsagainsthumanity.com/wcards.txt';
 
-// populate strings for white cards
+// Populate strings for white cards
 foreach($promptFilenames as $url){
 	$source = file_get_contents($url);
 
-	// remove junk
+	// Remove junk
 	$source = str_replace('cards=', '', $source);
 	$source = str_replace('Â®', '&reg;', $source);
 	$source = str_replace('This is the way the world ends \ This is the way the world ends \ ', "This is the way the world ends \\n\\n", $source);
@@ -98,11 +98,11 @@ foreach($promptFilenames as $url){
 	}
 }
 
-// populate strings for black cards
+// Populate strings for black cards
 foreach($responseFilenames as $url){
 	$source = file_get_contents($url);
 
-	// remove junk
+	// Remove junk
 	$source = str_replace('™', '&trade;', $source);
 	$source = str_replace('"', '&quot;', $source);
 

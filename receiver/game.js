@@ -61,7 +61,7 @@ function Player(name, channel) {
 }
 
 function Response(cards, submitter){
-    //an array of cardIDs
+    // An array of cardIDs
     this.cards = cards;
     this.submitter = submitter;
 }
