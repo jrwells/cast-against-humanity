@@ -3,7 +3,7 @@ if($argc != 3){
 	die("Usage: clean.php [filename to be cleaned] [destination file]\n\n");
 }
 
-// clean up file
+// Clean up file
 $file = file_get_contents($argv[1]);
 $fileParts = explode("\n", $file);
 $newFile = '';
@@ -11,13 +11,13 @@ $newFile = '';
 foreach($fileParts as &$line){
 	$line = strtolower(trim($line));
 	
-	// make sure it starts with 'things'
+	// Make sure it starts with 'things'
 	$byWord = explode(" ", $line);
 	if($byWord[0] != "things"){
 		$line = "things " . $line;
 	}
 
-	// capitalize the first word of every sentence
+	// Capitalize the first word of every sentence
 	$bySentence = explode(".", $line);
 	$line = '';
 	foreach($bySentence as &$sentence){
@@ -27,7 +27,7 @@ foreach($fileParts as &$line){
 
 	$line = trim($line);
 
-	// make sure the last character is a '.'
+	// Make sure the last character is a '.'
 	if(substr($line, -1, 1) != "." && substr($line, -1, 1) != "!" && substr($line, -1, 1) != "?"){
 		$line .= ".";
 	}
