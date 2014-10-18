@@ -1,4 +1,4 @@
-// error constants
+// Error Constants
 
 INVALID_TYPE              = -1;
 SUBMITTED_WRONG_NUM_CARDS =  1;
@@ -8,14 +8,14 @@ SENT_BLANK_NAME           =  4;
 ROUND_IN_PROGRESS         =  5;
 NOT_ENOUGH_PLAYERS        =  6;
 
-// other constants
+// Other Constants
 NORMAL_HAND_SIZE = 7;
 
-// when debug mode is on, all Response and Player objects are printed with
+// When debug mode is on, all Response and Player objects are printed with
 // all human-useful member variables. Not great for competitive play.
 DEBUG = false;
 
-// used to exit the game after inactivity
+// Used to exit the game after inactivity
 idleTime = 0;
 IDLE_MAX = 15;
 
@@ -72,21 +72,21 @@ function Game() {
     this.responseDeck  = whiteCards;
     this.promptDeck    = blackCards;
 
-    //a dictionary from cardIDs to cards ({cardID : card}) to keep track
-    //of all cards dealt
+    // A dictionary from cardIDs to cards ({cardID : card}) to keep track
+    // of all cards dealt
     this.dealtResponses = new Object();
 
-    // shuffle both decks
+    // Shuffle both decks
     this.responseDeck = shuffle(this.responseDeck);
     this.promptDeck = shuffle(this.promptDeck);
 
-    //an array of response IDs specific to the round
+    // An array of response IDs specific to the round
     this.currentResponses = new Array(); //reset this after each new round
     this.judge = 0;
     this.testBool = true;
     this.isBetweenRounds = true;
 
-    //the current prompt card
+    // The current prompt card
     this.currentCard = new BlackCard('NULL', 0);
 
     this.addPlayer = function(player){
@@ -126,7 +126,7 @@ function Game() {
     }
 
     this.sendGameSync = function(){
-        // update all clients' user list and scores
+        // Update all clients' user list and scores
         var playerList = new Object();
         for(var i = 0; i < this.players.length; i++){
             //this.checkHandSize(players[i]);
@@ -162,14 +162,14 @@ function Game() {
 }
 
 function getPlayerIndexByChannel(channel){
-    // first check players
+    // First check players
     for(var i = 0; i < game.players.length; i++){
         if(game.players[i].channel == channel){
             return i;
         }
     }
 
-    // now check queue
+    // Now check queue
     for(var i = 0; i < game.playerQueue.length; i++){
         if(game.playerQueue[i].channel == channel){
             return i;
@@ -180,12 +180,12 @@ function getPlayerIndexByChannel(channel){
     return -1;
 }
 
-// update (reset) the list of players on screen
+// Update (reset) the list of players on screen
 function updatePlayerList(){
 
-    //only update the dispay if not currently playing
+    // Only update the dispay if not currently playing
     if (game.isBetweenRounds){
-        //reset the card classes
+        // Reset the card classes
         $('.won').removeClass('card response won').addClass('card response unrevealed');
         $('.lost').removeClass('card response lost').addClass('card response unrevealed');
         $( ".response > p" ).html('?');
@@ -207,7 +207,7 @@ function updatePlayerList(){
     }
 }
 
-// for testing only
+// For testing only
 function testUpdatePlayerList(currentPlayers, queuedPlayers){
     $( ".response > p" ).html('?');
     $('.secondAnswer').hide();
@@ -244,7 +244,7 @@ function joinPlayer(channel, response){
 }
 
 function leavePlayer(channel){
-    // if this player is queued, just dequeue them
+    // If this player is queued, just dequeue them
     for(var i = 0; i < game.playerQueue.length; i++){
         if(game.playerQueue[i].channel == channel){
             game.deQueuePlayerByChannel(channel);
@@ -253,14 +253,14 @@ function leavePlayer(channel){
         }
     }
 
-    // is this the last player?
+    // Is this the last player?
     if(game.players.length == 1){
         newGrind();
         betweenRounds();
     }
 
     playerID = getPlayerIndexByChannel(channel);
-    // if they're currently judge, new round
+    // If they're currently judge, new round
     if(game.judge == playerID){
         if(!game.isBetweenRounds){
             game.advanceJudge();
@@ -287,7 +287,7 @@ function roundScreen(){
     $('.judgeOrWinner').html('<em>' + game.players[game.judge].name + '</em> is judging</p>');
 }
 
-//for testing only
+// For testing only
 function testRoundScreen(){
     $( ".response > p" ).html('?');
     if (game.currentCard.numOfBlanks < 2){
@@ -307,14 +307,14 @@ function testRoundScreen(){
 }
 
 function startNextRound(channel){
-    // only can start if we're in between rounds
+    // Only can start if we're in between rounds
     if(!game.isBetweenRounds){
         console.warn('Tried to start a new round during a round.');
         channel.send({ 'type' : 'response', 'code': ROUND_IN_PROGRESS });
         return;
     }
 
-    // only can start if we have > 2 players
+    // Only can start if we have > 2 players
     if((game.players.length + game.playerQueue.length) < 3){
         console.warn("Tried to start new round with not enough players.");
         channel.send({ 'type' : 'response', 'code': NOT_ENOUGH_PLAYERS });
@@ -326,20 +326,20 @@ function startNextRound(channel){
 
     game.isBetweenRounds = false;
 
-    // show next black card
+    // Show next black card
     roundScreen();
 
     console.debug('starting next round');
     console.debug(game);
 
-    // let everyone know the round has started
+    // Let everyone know the round has started
     for(var i = 0; i < game.players.length; i++){
         game.players[i].channel.send({ 'type' : 'roundStarted', 'prompt': game.currentCard.text, 'numOfBlanks': game.currentCard.numOfBlanks});
     }
 }
 
 function betweenRounds(){
-    // notify everyone that we're in between rounds
+    // Notify everyone that we're in between rounds
     for(var i = 0; i < game.players.length; i++){
         game.players[i].channel.send({ 'type' : 'roundEnded' });
     }
@@ -347,7 +347,7 @@ function betweenRounds(){
     game.isBetweenRounds = true;
 }
 
-// deal one card to one player
+// Deal one card to one player
 function onePlayerDeal(playerID, card){
     console.debug('onePlayerDeal: playerID = ' + playerID +'; card = ' + card.text);
     
@@ -369,36 +369,36 @@ function onePlayerDeal(playerID, card){
     game.sendGameSync();
 }
 
-// deal numOfCards cards to everyone
+// Deal numOfCards cards to everyone
 function globalDeal(numOfCards){
     for(var i = 0; i < numOfCards; i++){
         for(var j = 0; j < game.players.length; j++){
-            // if (game.players[j].ID == game.judge){
-            //     console.log("globalDeal:  don't deal to last judge: " + game.judge);
-            //     continue;
-            // }
+            //if (game.players[j].ID == game.judge){
+            //    console.log("globalDeal:  don't deal to last judge: " + game.judge);
+            //    continue;
+            //}
             if (game.players[j].ID != game.judge){
-                // draw a card
+                // Draw a card
                 var thisCard = game.responseDeck.pop();
                 onePlayerDeal(game.players[j].ID, thisCard);
-                //store the card in dealtResponses
+                // Store the card in dealtResponses
                 game.dealtResponses[thisCard.ID] = thisCard;
             }
         }
     }
 }
 
-// prepare for next question
-//called by startNextRound(channel)
+// Prepare for next question
+// Called by startNextRound(channel)
 function newGrind(){
     console.debug('processing player queue');
-    // add players who are queued
+    // Add players who are queued
     for(var i = 0; i < game.playerQueue.length; i++){
         console.debug('enqueuing player ' + i);
 
         game.addPlayer(game.playerQueue[i], true);
 
-         // deal them an initial hand of 6
+         // Deal them an initial hand of 6
         for(var j = 0; j < NORMAL_HAND_SIZE; j++){
             // choose card and deal
             var thisCard = game.responseDeck.pop();
@@ -414,19 +414,19 @@ function newGrind(){
 
     console.debug('player queue processed');
 
-    // clear player queue
+    // Clear player queue
     game.playerQueue = [];
 
-    // clear responses
+    // Clear responses
     game.currentResponses = [];
 
-    // choose next prompt
+    // Choose next prompt
     game.currentCard = game.promptDeck.pop();
     //while (game.currentCard.numOfBlanks != 2){
-        //game.currentCard = game.promptDeck.pop();
+    //    game.currentCard = game.promptDeck.pop();
     //}
 
-      // deal needed number of new cards all around
+      // Deal needed number of new cards all around
     if(game.currentCard.numOfBlanks < 2){
         globalDeal(1);
     }
@@ -434,10 +434,10 @@ function newGrind(){
         globalDeal(game.currentCard.numOfBlanks);
     }
 
-    // choose next judge
+    // Choose next judge
     game.advanceJudge();
 
-    //reset the number of cards that have been read
+    // Reset the number of cards that have been read
     game.numReadCards = 0;
 
   
@@ -450,7 +450,7 @@ function newGrind(){
 function updatePlayer(channel, info){
     var playerID = getPlayerIndexByChannel(channel);
 
-    // find out if we're queued
+    // Find out if we're queued
     var isQueued = false;
     for(var i = 0; i < game.playerQueue.length; i++){
         if(game.playerQueue[i].channel == channel){
@@ -471,10 +471,10 @@ function updatePlayer(channel, info){
 
 function playSubmission(channel, response){
 
-    //currentResponses is an array of responses (with each response having both an array of cards and a submitter)
-    //the response parameter though just contains an array of cardIDs (not cards)
+    // CurrentResponses is an array of responses (with each response having both an array of cards and a submitter)
+    // The response parameter though just contains an array of cardIDs (not cards)
 
-    //check that the client submitted the correct number of cards
+    // Check that the client submitted the correct number of cards
 
 
     
@@ -493,7 +493,7 @@ function playSubmission(channel, response){
         return;
     }
 
-    // has this player already submitted cardIDs? update them
+    // Has this player already submitted cardIDs? update them
 
     for(var i = 0; i < game.currentResponses.length; i++){
        
@@ -505,28 +505,28 @@ function playSubmission(channel, response){
         }
     }
 
-    // or if they haven't submitted+    
+    // Or if they haven't submitted+    
     var submittedCards =[];
-    //get the respective cards for the submitted cardIDs
+    // Get the respective cards for the submitted cardIDs
     for (var i = 0; i < response.cardIDs.length ; i++){
-            //game.dealtResponses is an associative array from cardID to card object
+            // game.dealtResponses is an associative array from cardID to card object
             submittedCards.push(game.dealtResponses[response.cardIDs[i]]);
     }
     game.currentResponses.push(new Response(submittedCards, getPlayerIndexByChannel(channel)));
     
-    // done submitting?
+    // Done submitting?
     if(game.currentResponses.length == (game.players.length - 1)){
-        //start the judging
+        // Start the judging
         for(var i = 0; i < game.players.length; i++){
             game.players[i].channel.send({ 'type' : 'judging' });
         }
-        //send the judge the currentResponses
+        // Send the judge the currentResponses
         sendJudgeSubmissions();
 
-        //call the following only when receieved judge's response
-        // remove submitted cards from players' hands
+        // Call the following only when receieved judge's response
+        // Remove submitted cards from players' hands
        
-        //no matching currentresponses for judge
+        // No matching currentresponses for judge
         for(var i = 0; i < game.currentResponses.length; i++){
            
             if (game.currentResponses[i].submitter != game.judge){
@@ -540,21 +540,21 @@ function playSubmission(channel, response){
     }
 }
 
-//send the judge all current responses
+// Send the judge all current responses
 function sendJudgeSubmissions(){
     game.players[game.judge].channel.send({'type' : 'judgeSubmissions', 'responses' : game.currentResponses});
 }
 
-//handle the judge's response of choosing the winning player
+// Handle the judge's response of choosing the winning player
 function submissionsJudged(channel, response){
-    //check that all cards have been revealed before allowing judging
+    // Check that all cards have been revealed before allowing judging
     if (game.numReadCards != ((game.players.length-1) * game.currentCard.numOfBlanks)){
         console.error("Judge tried to judge before all cards were read");
         channel.send({ 'type' : 'response', 'code': JUDGED_TOO_EARLY });
         return;
     }
 
-    //find the response that corresponds to the winningPlayerID
+    // Find the response that corresponds to the winningPlayerID
     for (var i = 0; i < game.currentResponses.length; i++){
         if (game.currentResponses[i].submitter == response.winningPlayerID){
             var winningCards = game.currentResponses[i].cards;
@@ -569,35 +569,35 @@ function submissionsJudged(channel, response){
         return;
     }
 
-    //update the winning player's trophies
+    // Update the winning player's trophies
     for (var i = 0; i < winningCards.length; i++){
         game.players[response.winningPlayerID].trophies.push(winningCards[i]);
     }
 
-    //and score
+    // And score
     game.players[response.winningPlayerID].incrementScore();
 
-    //visually indicate the winning card(s) by fading the other cards
+    // Visually indicate the winning card(s) by fading the other cards
     for (var i = 0; i < game.currentResponses.length; i++){
         $('.response').removeClass('card response').addClass('card response lost');  
     }
 
     for (var i = 0; i < winningCards.length; i++){
-        //and reset the winning player's card(s) to not be faded
+        // And reset the winning player's card(s) to not be faded
         $('.response p:contains(' + winningCards[i] + ')').parent().removeClass('card response lost').addClass('card response won');
         break;
     }
     
 
-    //and visually indicate the winning player
+    // And visually indicate the winning player
     $('.judgeOrWinner').html('<em>' + game.players[response.winningPlayerID] + '</em> wins this round!');
     
-    //end the round
+    // End the round
     betweenRounds();
 
 }
 
-//for testing only
+// For testing only
 function testSubmissionsJudged(text, numResponses){
     console.log('called testSubmissionsJudged:') //visually indicate the winning card(s) by fading the other cards
     
@@ -610,8 +610,8 @@ function testSubmissionsJudged(text, numResponses){
     $('.judgeOrWinner').html(' <em>poopy</em> wins this round');
 }
 
-//the judge will reveal the currentResponses one-by-one
-//@param response: int[] cardIDs
+// The judge will reveal the currentResponses one-by-one
+// @param response: int[] cardIDs
 function revealCard(channel, response){
 
     
@@ -641,12 +641,12 @@ function revealCard(channel, response){
         $(".secondAnswer:contains('?')").hide();
     }
     
-    //keep track of how many cards have been read to determine whether judge can make his/her decision
+    // Keep track of how many cards have been read to determine whether judge can make his/her decision
     game.numReadCards += response.cardIDs.length;
 
 }
 
-//for testing only
+// For testing only
 function testRevealCard(text){
     //show the response on the TV
     console.log('called testRevealCard:' + text);
@@ -732,12 +732,12 @@ function hideSplash(){
 
 function touch(){
     idleTime = 0;
-    //TODO: fix this if we want
-    //$('#idlewarning').fadeOut();
+    // TODO: fix this if we want
+    // $('#idlewarning').fadeOut();
 }
 
 function checkIdle(){
-    // only exit if nobody's in the game (queued doesn't count)
+    // Only exit if nobody's in the game (queued doesn't count)
     if(game.players.length > 0){
         return;
     }
@@ -748,18 +748,18 @@ function checkIdle(){
         window.close();
     }
     else if(idleTime > (IDLE_MAX * .75)){
-        // warn if 75% of the way to exit
-        //TODO: fix this if we want
-        //$('#idlewarning').fadeIn();
+        // Warn if 75% of the way to exit
+        // TODO: fix this if we want
+        // $('#idlewarning').fadeIn();
     }
 }
 
-// initialize
+// Initialize
 $(function(){
     initGame();
     initReceiver();
 
-    // exit game after inactivity
+    // Exit game after inactivity
     var idleInterval = setInterval(checkIdle, 60000); // 1 minute
 });
 
