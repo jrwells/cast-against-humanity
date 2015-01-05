@@ -3,8 +3,8 @@ A Cards Against Humanity game that runs in the Chromecast with iOS and Android
 mobile apps as controllers.
 
 ## Contributors
-* iOS Application - Robert Wells (github.com/jrwells)
-* Android Application - Jeff Stephens (github.com/jeffstephens)
+* iOS Application - Robert Wells (http://www.github.com/jrwells)
+* Android Application - Jeff Stephens (http://www.github.com/jeffstephens)
 * Web Server - Hart Neray
 
 ## Data sources
